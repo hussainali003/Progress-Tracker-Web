@@ -1,10 +1,9 @@
 import LoginPage from "./Pages/Auth/LoginPage";
-import RegisterPage from "./Pages/Auth/RegisterPage";
 
 export default function App() {
   return (
     <div className="flex w-full h-full">
-      <RegisterPage />
+      <LoginPage />
     </div>
   )
 }
