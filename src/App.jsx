@@ -1,9 +1,18 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+
 import LoginPage from "./Pages/Auth/LoginPage";
+import RegisterPage from "./Pages/Auth/RegisterPage";
 
 export default function App() {
   return (
-    <div className="flex w-full h-full">
-      <LoginPage />
-    </div>
-  )
+    <Router>
+      <div className="flex w-full h-full">
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }

@@ -1,14 +1,29 @@
-import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router";
+
+import { RxEnter } from "react-icons/rx";
 import { FaUser } from "react-icons/fa6";
 import { FaEnvelope } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 import authImage from '../../assets/images/authImage.jpg';
 
 export default function RegisterPage () {
+    const navigation = useNavigate();
+
+    const handleNavigateToRegister = () => {
+        navigation('/login');
+    }
+
     return (
         <div className="h-full w-full flex">
             <div className="h-full flex flex-1 flex-col items-center justify-center px-24 bg-[#2F262F]">
+                <button onClick={handleNavigateToRegister} className="group flex justify-center mb-4 py-4 px-4 rounded-2xl bg-white shadow-lg cursor-pointer">
+                    <RxEnter 
+                        className="text-black transition duration-300 group-hover:text-[#00A82E]" 
+                        size={28} 
+                    />
+                </button>
                 <div className="flex flex-col items-center mt-2">
                     <h1 className="font-medium text-2xl text-[#ffffff]">Sign up for free</h1>
                     <p className="text-[#909699] text-center">Track every progress in one place</p>

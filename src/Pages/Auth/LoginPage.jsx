@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { RxEnter } from "react-icons/rx";
 import { FaEnvelope } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
@@ -6,18 +8,23 @@ import { FcGoogle } from "react-icons/fc";
 import authImage from '../../assets/images/authImage.jpg';
 
 export default function LoginPage () {
+    const navigation = useNavigate();
+
+    const handleNavigateToRegister = () => {
+        navigation('/register');
+    }
+
     return (
         <div className="h-full w-full flex">
             <div className="h-full flex flex-1 flex-col items-center justify-center px-24 bg-[#2F262F]">
                 <div className="flex flex-col items-center mt-2">
-                    <button className="group flex justify-center mb-4 py-4 px-4 rounded-2xl bg-white shadow-lg cursor-pointer">
+                    <button onClick={handleNavigateToRegister} className="group flex justify-center mb-4 py-4 px-4 rounded-2xl bg-white shadow-lg cursor-pointer">
                         <RxEnter 
                             className="text-black transition duration-300 group-hover:text-[#00A82E]" 
                             size={28} 
                         />
                     </button>
                     <h1 className="font-medium text-2xl text-[#ffffff]">Sign in with email</h1>
-                    <p className="text-[#909699] text-center">Track every progress in one place</p>
                 </div>
                 {/* input fields */}
                 <div className="w-full flex items-center justify-center gap-1 mb-3 mt-4 py-2 px-4 rounded-xl bg-white ">
