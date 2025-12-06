@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { Route, BrowserRouter as Router, Routes } from "react-router";
 
-import DashboardPage from "./Pages/Dashboard";
 import LoginPage from "./Pages/Auth/LoginPage";
 import RegisterPage from "./Pages/Auth/RegisterPage";
+import DashboardPage from "./Pages/Dashboard";
 
 export default function App() {
   return (

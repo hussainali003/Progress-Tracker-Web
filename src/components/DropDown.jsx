@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaChevronUp } from "react-icons/fa";
-import { FaC, FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa6";
 
 export default function DropDown({
   label,
@@ -26,7 +26,8 @@ export default function DropDown({
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      <button 
+      <button
+        type="button"
         onClick={() => setOpen(!open)}
         className="w-full flex justify-between items-center px-2 py-2 text-xs text-start text-white rounded bg-neutral-800"
       >
@@ -37,16 +38,17 @@ export default function DropDown({
       {open && (
         <div className="absolute w-full bg-neutral-900 rounded mt-2 shadow-xl z-50">
           {options.map((opt) => (
-            <div
+            <button
+              type="button"
               key={opt.value}
               onClick={() => {
                 onChange(opt);
                 setOpen(false);
               }}
-              className={`px-3 py-2 text-xs hover:bg-neutral-700 cursor-pointer ${optionClassName}`}
+              className={`w-full block text-start px-3 py-2 text-xs hover:bg-neutral-700 cursor-pointer ${optionClassName}`}
             >
               {opt.label}
-            </div>
+            </button>
           ))}
         </div>
       )}

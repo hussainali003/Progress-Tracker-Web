@@ -9,12 +9,12 @@ export default function DashboardPage() {
 
   return (
     <div className="h-full w-full flex bg-[#171717]">
-        {/* Left Section */}
-        <ControlPanel onOpenModal={() => setIsModalOpen(true)} />
-        {/* Right Section */}
-        <DisplayPanel />
-        {/* Habit Creation Modal */}
-        <HabitModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Left Section */}
+      <ControlPanel onOpenModal={() => setIsModalOpen(true)} />
+      {/* Right Section */}
+      <DisplayPanel />
+      {/* Habit Creation Modal */}
+      <HabitModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
