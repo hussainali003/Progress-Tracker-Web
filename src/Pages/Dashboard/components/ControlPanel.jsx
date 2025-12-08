@@ -2,7 +2,7 @@ export default function ControlPanel({ onOpenModal }) {
   return (
     <div className="h-full flex flex-col flex-1 px-4 py-12">
       <header className="flex items-center mb-6">
-        <img src="" alt="logo" />
+        <img src={null} alt="logo" />
         <h1 className="text-white text-2xl font-semibold ml-2">Dashboard</h1>
       </header>
       <button
