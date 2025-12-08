@@ -6,11 +6,14 @@ import { TiArrowRepeat } from "react-icons/ti";
 
 import DropDown from "../../../components/DropDown";
 import StartDateDropdown from "./components/StartDateDropdown";
+import TimeInput from "./components/TimeInput";
 
 export default function HabitForm({ onClose }) {
   const [repeat, setRepeat] = useState({ label: "Every Day", value: "every day" });
   const [endCondition, setEndCondition] = useState({ label: "Never", value: "never" });
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [time, setTime] = useState("");
 
   return (
     <div className="h-full flex flex-col text-white">
@@ -20,12 +23,12 @@ export default function HabitForm({ onClose }) {
           <div className="w-5 h-5 bg-sky-500" />
         </button>
         <input
-          className="py-3 pl-3 bg-transparent text-[#898889] placeholder-[#898889] focus:outline-none"
+          className="py-3 pl-3 text-[#898889] placeholder-[#898889] bg-transparent focus:outline-none"
           placeholder="Enter Habit Name"
         />
       </div>
       {/* Habit Details */}
-      <div className="w-full flex justify-between px-3 py-3 border border-[#333333] border-t-0">
+      <div className="w-full flex justify-between px-3 py-3 border border-t-0 border-[#333333]">
         <div className="flex gap-2 items-center">
           <TiArrowRepeat color="white" size={18} />
           <h1 className="text-white">Repeat</h1>
@@ -54,41 +57,51 @@ export default function HabitForm({ onClose }) {
         </div>
         <StartDateDropdown className="w-[45%]" date={startDate} onDateChange={setStartDate} />
       </div>
-      <div className="w-full flex justify-between px-3 py-3 border border-[#333333] border-t-0">
+      <div
+        className={`w-full flex justify-between px-3 py-3 border border-t-0 border-[#333333] ${
+          endCondition.value === "never" ? "items-center" : "items-start"
+        }`}
+      >
         <div className="flex gap-2 items-center">
           <AiOutlineStop color="white" size={18} />
           <h1 className="text-white">End Condition</h1>
         </div>
-        <DropDown
-          className="w-[30%]"
-          value={endCondition}
-          onChange={setEndCondition}
-          label="Never"
-          options={[
-            { label: "Never", value: "never" },
-            { label: "On a date", value: "on a date" },
-          ]}
-        />
+        <div className="w-[45%] gap-2 flex flex-col">
+          <DropDown
+            className="w-full"
+            value={endCondition}
+            onChange={setEndCondition}
+            label="Never"
+            options={[
+              { label: "Never", value: "never" },
+              { label: "On a date", value: "on a date" },
+            ]}
+          />
+          {endCondition.value === "on a date" && (
+            <StartDateDropdown className="w-full" date={endDate} onDateChange={setEndDate} />
+          )}
+        </div>
       </div>
-      <div className="w-full flex px-3 py-3 border border-[#333333] border-t-0">
+      <div className="w-full flex justify-between px-3 py-3 border border-[#333333] border-t-0">
         <div className="flex gap-2 items-center">
           <GoBell color="white" size={18} />
           <h1 className="text-white">Reminder</h1>
         </div>
+        <TimeInput value={time} onChange={setTime} className="w-[30%]" />
       </div>
       {/* Footer */}
-      <div className="flex items-center justify-end mt-auto px-3 py-3 gap-2 border-t border-[#333333] bg-[#242424]">
+      <div className="flex items-center justify-end gap-2 mt-auto px-3 py-3 border-t border-[#333333] bg-[#242424]">
         <button
           type="button"
-          className="font-medium p-2 text-sm border border-[#424242] rounded-sm cursor-pointer"
+          className="p-2 font-medium text-sm border border-[#424242] rounded-sm cursor-pointer"
           onClick={onClose}
         >
           Cancel
         </button>
         <button
           type="submit"
-          disabled={true}
-          className="font-medium p-2 text-sm rounded-sm bg-[#5487f6] disabled:bg-[#505050] text-gray-400 cursor-not-allowed"
+          onClick={onClose}
+          className="p-2 font-medium text-sm text-white rounded-sm bg-[#5487f6] cursor-pointer disabled:bg-[#505050] disabled:text-gray-400 disabled:cursor-crosshair"
         >
           save
         </button>
