@@ -11,8 +11,8 @@ export default function HabitModal({ isOpen, onClose }) {
         content: {
           top: "5%",
           bottom: "5%",
-          left: "35%",
-          right: "35%",
+          left: "30%",
+          right: "30%",
           border: "none",
           padding: 0,
           backgroundColor: "#1A1A1A",

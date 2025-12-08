@@ -36,8 +36,8 @@ export default function DropDown({
       </button>
 
       {open && (
-        <div className="absolute w-full bg-neutral-900 rounded mt-2 shadow-xl z-50">
-          {options.map((opt) => (
+        <div className="absolute w-full bg-[#464646] rounded mt-2 shadow-xl z-50">
+          {options.map((opt, index) => (
             <button
               type="button"
               key={opt.value}
@@ -45,7 +45,10 @@ export default function DropDown({
                 onChange(opt);
                 setOpen(false);
               }}
-              className={`w-full block text-start px-3 py-2 text-xs hover:bg-neutral-700 cursor-pointer ${optionClassName}`}
+              className={`w-full block text-start px-3 py-2 text-xs hover:bg-neutral-700 cursor-pointer 
+                ${index !== options.length - 1 ? "border-b border-neutral-600" : "rounded-b"}
+                ${index === 0 && "rounded-t"} 
+                ${optionClassName}`}
             >
               {opt.label}
             </button>
