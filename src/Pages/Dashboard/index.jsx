@@ -12,7 +12,7 @@ export default function DashboardPage() {
       {/* Left Section */}
       <ControlPanel onOpenModal={() => setIsModalOpen(true)} />
       {/* Right Section */}
-      <DisplayPanel />
+      <DisplayPanel onOpenModal={() => setIsModalOpen(true)} />
       {/* Habit Creation Modal */}
       <HabitModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
