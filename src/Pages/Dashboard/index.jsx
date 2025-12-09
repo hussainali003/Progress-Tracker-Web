@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import ControlPanel from "./components/ControlPanel";
-import DisplayPanel from "./components/DisplayPanel";
 import HabitModal from "./createHabit/HabitModal";
+import ControlPanel from "./sections/ControlPanel";
+import DisplayPanel from "./sections/DisplayPanel";
 
 export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
