@@ -1,0 +1,113 @@
+import { useEffect, useRef, useState } from "react";
+
+import { MdSort } from "react-icons/md";
+import DateHeader from "./DateHeader";
+import TickButton from "./TickButton";
+
+const getDateString = (offset) => {
+  const date = new Date();
+  date.setDate(date.getDate() - offset);
+  return date.toISOString().split("T")[0];
+};
+
+export default function ShowHabits({ habits, setHabits }) {
+  const [open, setOpen] = useState(false);
+  const [sortBy, setSortBy] = useState({ label: "Ascending", value: "ascending" });
+  const dropdownRef = useRef(null);
+
+  // Close when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  console.log("habits:", habits);
+
+  return (
+    <div>
+      <header className="flex justify-between py-2 px-4 border-b border-[#4a4a4a]">
+        <p className="text-white">Habit</p>
+        <div ref={dropdownRef} className="relative w-[8%] flex justify-end">
+          <button
+            type="button"
+            className="ml-auto cursor-pointer group"
+            onClick={() => setOpen(!open)}
+          >
+            <MdSort size={20} className="text-[#7b7c7c] rotate-180 group-hover:text-white" />
+          </button>
+          {open && (
+            <div className="absolute w-full z-50 mt-8 rounded bg-[#464646] shadow-xl">
+              {options.map((opt, index) => (
+                <button
+                  type="button"
+                  key={opt.value}
+                  onClick={() => {
+                    setSortBy(opt);
+                    setOpen(false);
+                  }}
+                  className={`w-full block px-3 py-2 text-start text-white text-xs hover:bg-neutral-700 cursor-pointer 
+                  ${index !== options.length - 1 ? "border-b border-neutral-600" : "rounded-b"}
+                  ${index === 0 && "rounded-t"}`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+      <DateHeader />
+      {habits.map((habit) => {
+        const completedDates = habit.completedDates || [];
+
+        const days = [0, 1, 2, 3];
+
+        return (
+          <div className="flex justify-between py-2 px-4" key={habit.id}>
+            <div className="flex-1">
+              <p className="text-sm" style={{ color: `#${habit.color}` }}>
+                {habit.name}
+              </p>
+            </div>
+
+            <div className="flex flex-1 justify-end gap-[22px]">
+              {days.map((offset) => {
+                const dateStr = getDateString(offset);
+                const isChecked = completedDates.includes(dateStr);
+
+                const toggleDate = () => {
+                  setHabits((prev) =>
+                    prev.map((h) => {
+                      if (h.id !== habit.id) return h;
+
+                      const newDates = isChecked
+                        ? h.completedDates.filter((d) => d !== dateStr)
+                        : [...(h.completedDates || []), dateStr];
+
+                      return {
+                        ...h,
+                        completedDates: newDates.slice(-4), // keep only last 4
+                      };
+                    }),
+                  );
+                };
+
+                return <TickButton key={dateStr} checked={isChecked} onClick={toggleDate} />;
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const options = [
+  { label: "Ascending", value: "ascending" },
+  { label: "Descending", value: "descending" },
+];

@@ -1,35 +1,22 @@
-import { TiArrowRepeatOutline } from "react-icons/ti";
-import WritingBoard from "../../../assets/images/writing-board.svg";
+import { useState } from "react";
+import NoHabits from "../components/NoHabits";
+import ShowHabits from "../components/ShowHabits";
 
 export default function DisplayPanel({ onOpenModal }) {
-  const habits = [];
+  const [habits, setHabits] = useState([
+    { id: 1, color: "FF5733", name: "Morning Jog adasdas dasdas dasdasd " },
+    { id: 2, color: "33FF57", name: "Read a Book" },
+    { id: 3, color: "3357FF", name: "Meditation" },
+  ]);
 
   return (
     <div className="h-full flex-5 pt-12">
       <div className="h-full flex flex-col border border-r-0 border-b-0 border-[#4a4a4a] rounded-tl-md">
         <div className="flex-1">
-          {habits.length === 0 && (
-            <div className="h-full flex flex-col items-center justify-center gap-2">
-              <img
-                src={WritingBoard}
-                alt="Empty habits illustration"
-                className="w-32 h-32 opacity-80"
-              />
-              <h1 className="text-white">Welcome to Progress Tracker</h1>
-              <p className="text-center text-sm text-[#7b7c7c]">
-                Start your first habit and watch your progress grow.
-                <br />
-                It's empty now. Add one to start your journey.
-              </p>
-              <button
-                type="button"
-                className="flex item-center py-1 px-2 gap-1 border border-[#4a4a4a] rounded bg-transparent cursor-pointer hover:bg-[#4a4a4a]"
-                onClick={onOpenModal}
-              >
-                <TiArrowRepeatOutline size={16} color="#FFFFFF" />
-                <p className="font-medium text-xs text-white">Build New Habit</p>
-              </button>
-            </div>
+          {habits.length === 0 ? (
+            <NoHabits onOpenModal={onOpenModal} />
+          ) : (
+            <ShowHabits habits={habits} setHabits={setHabits} />
           )}
         </div>
         <footer className="flex border-t border-[#4a4a4a]">
