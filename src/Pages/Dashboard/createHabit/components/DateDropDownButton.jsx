@@ -6,7 +6,7 @@ import { FaChevronDown } from "react-icons/fa6";
 
 import { NextMonthButton, PreviousMonthButton } from "./CalendarNavButton";
 
-export default function StartDateDropdown({ date, onDateChange, className = "" }) {
+export default function DateDropDownButton({ label, date, onDateChange, className }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -30,7 +30,7 @@ export default function StartDateDropdown({ date, onDateChange, className = "" }
           "w-full flex justify-between items-center px-2 py-2 text-xs text-start text-white rounded bg-neutral-800"
         }
       >
-        {date ? date.toDateString() : "Select start date"}
+        {date ? date.toDateString() : `Select ${label} date`}
         {open ? <FaChevronUp /> : <FaChevronDown />}
       </button>
       {open && (
@@ -42,6 +42,7 @@ export default function StartDateDropdown({ date, onDateChange, className = "" }
               onDateChange(date);
               setOpen(false);
             }}
+            disabled={{ before: new Date() }}
             components={{
               PreviousMonthButton,
               NextMonthButton,

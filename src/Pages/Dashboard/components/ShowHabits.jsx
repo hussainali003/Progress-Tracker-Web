@@ -26,8 +26,6 @@ export default function ShowHabits({ habits, setHabits }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  console.log("habits:", habits);
-
   return (
     <div>
       <header className="flex justify-between py-2 px-4 border-b border-[#4a4a4a]">

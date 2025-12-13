@@ -1,5 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 
+import "react-day-picker/dist/style.css";
+
 import AuthPage from "./Pages/Auth/AuthPage";
 import LoginPage from "./Pages/Auth/LoginPage";
 import RegisterPage from "./Pages/Auth/RegisterPage";
