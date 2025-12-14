@@ -1,13 +1,18 @@
+import { DateTime } from "luxon";
+
 import { useEffect, useRef, useState } from "react";
 
 import { MdSort } from "react-icons/md";
+
+import { completeHabit, unCompleteHabit } from "../../../api/habitRow";
+
 import DateHeader from "./DateHeader";
 import TickButton from "./TickButton";
 
 const getDateString = (offset) => {
   const date = new Date();
   date.setDate(date.getDate() - offset);
-  return date.toISOString().split("T")[0];
+  return date;
 };
 
 export default function ShowHabits({ habits, setHabits }) {
@@ -69,23 +74,31 @@ export default function ShowHabits({ habits, setHabits }) {
           <div className="flex justify-between py-2 px-4" key={habit.id}>
             <div className="flex-1">
               <p className="text-sm" style={{ color: `#${habit.color}` }}>
-                {habit.name}
+                {habit.habit}
               </p>
             </div>
 
             <div className="flex flex-1 justify-end gap-[22px]">
               {days.map((offset) => {
-                const dateStr = getDateString(offset);
-                const isChecked = completedDates.includes(dateStr);
+                const date = getDateString(offset);
+                const isChecked = completedDates.includes(DateTime.fromJSDate(date).toISODate());
 
                 const toggleDate = () => {
+                  if (isChecked) {
+                    unCompleteHabit({ habitId: habit.id, date: date });
+                  } else {
+                    completeHabit({ habitId: habit.id, date: date });
+                  }
+
                   setHabits((prev) =>
                     prev.map((h) => {
                       if (h.id !== habit.id) return h;
 
                       const newDates = isChecked
-                        ? h.completedDates.filter((d) => d !== dateStr)
-                        : [...(h.completedDates || []), dateStr];
+                        ? h.completedDates.filter(
+                            (d) => d !== DateTime.fromJSDate(date).toISODate(),
+                          )
+                        : [...(h.completedDates || []), DateTime.fromJSDate(date).toISODate()];
 
                       return {
                         ...h,
@@ -95,7 +108,7 @@ export default function ShowHabits({ habits, setHabits }) {
                   );
                 };
 
-                return <TickButton key={dateStr} checked={isChecked} onClick={toggleDate} />;
+                return <TickButton key={offset} checked={isChecked} onClick={toggleDate} />;
               })}
             </div>
           </div>

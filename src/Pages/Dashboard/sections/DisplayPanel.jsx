@@ -1,19 +1,46 @@
-import { useState } from "react";
+import { DateTime } from "luxon";
+import { useEffect, useState } from "react";
+
+import { getHabitsWithRecords } from "../../../api/habit";
+
 import NoHabits from "../components/NoHabits";
 import ShowHabits from "../components/ShowHabits";
 
 export default function DisplayPanel({ onOpenModal }) {
-  const [habits, setHabits] = useState([
-    { id: 1, color: "FF5733", name: "Morning Jog adasdas dasdas dasdasd " },
-    { id: 2, color: "33FF57", name: "Read a Book" },
-    { id: 3, color: "3357FF", name: "Meditation" },
-  ]);
+  const [habits, setHabits] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHabits = async () => {
+      try {
+        const habitsFromApi = await getHabitsWithRecords();
+
+        const data = habitsFromApi.map((habit) => ({
+          ...habit,
+          completedDates: habit.completedDates.map((date) => DateTime.fromISO(date).toISODate()),
+        }));
+
+        setHabits(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchHabits();
+  }, []);
 
   return (
     <div className="h-full flex-5 pt-12">
       <div className="h-full flex flex-col border border-r-0 border-b-0 border-[#4a4a4a] rounded-tl-md">
         <div className="flex-1">
-          {habits.length === 0 ? (
+          {isLoading ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-[#FFFFFF] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : habits.length === 0 ? (
             <NoHabits onOpenModal={onOpenModal} />
           ) : (
             <ShowHabits habits={habits} setHabits={setHabits} />
