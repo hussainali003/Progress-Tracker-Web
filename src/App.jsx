@@ -6,6 +6,7 @@ import AuthPage from "./Pages/Auth/AuthPage";
 import LoginPage from "./Pages/Auth/LoginPage";
 import RegisterPage from "./Pages/Auth/RegisterPage";
 import DashboardPage from "./Pages/Dashboard";
+import ProtectedRoute from './navigation/ProtectedRoute';
 
 export default function App() {
   return (
@@ -20,7 +21,14 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           {/* protected routes */}
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>

@@ -1,13 +1,21 @@
 import { useState } from "react";
 
 import { IoIosCreate, IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
+import { useNavigate } from "react-router";
 
 export default function ControlPanel({ onOpenModal }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const user = { name: "Hussain Ali", profileImage: null };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+
+    navigate('/', {replace: true})
+  }
+
   return (
-    <div className="h-full flex flex-col flex-1 px-4 py-12">
+    <div className="h-full flex flex-col flex-1 px-4 pt-12">
       <div className="flex items-center gap-2 mb-2 px-2 py-2 rounded-md border border-[#4a4a4a] bg-[#323232]">
         <div className="h-6 w-6 rounded-full bg-white">
           {user.profileImage && <img src={user.profileImage} alt="logo" />}
@@ -47,6 +55,11 @@ export default function ControlPanel({ onOpenModal }) {
             </button>
           </div>
         )}
+      </div>
+      <div className="flex flex-1 items-end">
+        <button type="button" className="py-2 cursor-pointer group" onClick={handleLogout}>
+          <p className="text-sm font-semibold text-[#7b7c7c] group-hover:text-white">Log out</p>
+        </button>
       </div>
     </div>
   );
