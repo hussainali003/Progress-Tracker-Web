@@ -7,6 +7,8 @@ import { TiArrowRepeat } from "react-icons/ti";
 
 import { createHabit } from "../../../api/habit";
 
+import useHabitStore from "../../../store/habitStore";
+
 import { createHabitSchema } from "../../../validation/createSchema";
 
 import ColorDropDownButton from "./components/ColorDropDownButton";
@@ -25,6 +27,7 @@ export default function HabitForm({ onClose }) {
   const [reminder, setReminder] = useState(540); // default to 9:00 am
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const addHabit = useHabitStore((state) => state.addHabit);
 
   // Clear end date if end condition is not "on a date"
   useEffect(() => {
@@ -50,7 +53,9 @@ export default function HabitForm({ onClose }) {
 
       await createHabitSchema.validate(formData, { abortEarly: false });
 
-      await createHabit(formData);
+      const data = await createHabit(formData);
+
+      addHabit(data);
 
       onClose();
     } catch (err) {

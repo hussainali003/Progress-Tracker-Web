@@ -6,6 +6,8 @@ import { MdSort } from "react-icons/md";
 
 import { completeHabit, unCompleteHabit } from "../../../api/habitRow";
 
+import useHabitStore from "../../../store/habitStore";
+
 import DateHeader from "./DateHeader";
 import TickButton from "./TickButton";
 
@@ -15,10 +17,13 @@ const getDateString = (offset) => {
   return date;
 };
 
-export default function ShowHabits({ habits, setHabits }) {
-  const [open, setOpen] = useState(false);
-  const [sortBy, setSortBy] = useState({ label: "Ascending", value: "ascending" });
+export default function ShowHabits() {
   const dropdownRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [, setSortBy] = useState({ label: "Ascending", value: "ascending" });
+  const habits = useHabitStore((state) => state.habits);
+  const setCompleteHabit = useHabitStore((state) => state.setCompleteHabit);
+  const setUnCompleteHabit = useHabitStore((state) => state.setUnCompleteHabit);
 
   // Close when clicking outside
   useEffect(() => {
@@ -85,12 +90,22 @@ export default function ShowHabits({ habits, setHabits }) {
 
                 const toggleDate = () => {
                   if (isChecked) {
-                    unCompleteHabit({ habitId: habit.id, date: date });
+                    console.log(date);
+                    // api
+                    unCompleteHabit({
+                      habitId: habit.id,
+                      date: DateTime.fromJSDate(date).toISODate(),
+                    });
+                    // setter
+                    setUnCompleteHabit(habit.id, DateTime.fromJSDate(date).toISODate());
                   } else {
+                    // api
                     completeHabit({ habitId: habit.id, date: date });
+                    // setter
+                    setCompleteHabit(habit.id, DateTime.fromJSDate(date).toISODate());
                   }
 
-                  setHabits((prev) =>
+                  /* setHabits((prev) =>
                     prev.map((h) => {
                       if (h.id !== habit.id) return h;
 
@@ -106,6 +121,7 @@ export default function ShowHabits({ habits, setHabits }) {
                       };
                     }),
                   );
+                  */
                 };
 
                 return <TickButton key={offset} checked={isChecked} onClick={toggleDate} />;
