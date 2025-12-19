@@ -11,8 +11,8 @@ export default function ControlPanel({ onOpenModal }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
 
-    navigate('/', {replace: true})
-  }
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="h-full flex flex-col flex-1 px-4 pt-12">

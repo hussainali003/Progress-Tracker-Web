@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { RxEnter } from "react-icons/rx";
+
 import { useNavigate } from "react-router";
 
 import { loginUser } from "../../api/auth";
@@ -14,9 +15,9 @@ import { loginSchema } from "../../validation/authSchema";
 export default function LoginPage() {
   const navigation = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleNavigateToRegister = () => {
