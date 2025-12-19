@@ -2,11 +2,12 @@ import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 import "react-day-picker/dist/style.css";
 
+import ProtectedRoute from "./navigation/ProtectedRoute";
 import AuthPage from "./Pages/Auth/AuthPage";
 import LoginPage from "./Pages/Auth/LoginPage";
 import RegisterPage from "./Pages/Auth/RegisterPage";
 import DashboardPage from "./Pages/Dashboard";
-import ProtectedRoute from './navigation/ProtectedRoute';
+import HabitDetail from "./Pages/HabitDetail";
 
 export default function App() {
   return (
@@ -26,6 +27,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/HabitDetail"
+            element={
+              <ProtectedRoute>
+                <HabitDetail />
               </ProtectedRoute>
             }
           />
