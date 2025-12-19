@@ -1,9 +1,12 @@
 import { useState } from "react";
 
+import { useParams } from "react-router";
 import Header from "./components/Header";
 import HabitDetailModal from "./components/modal";
 
 export default function HabitDetail() {
+  const { habitId } = useParams();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

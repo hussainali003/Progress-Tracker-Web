@@ -31,7 +31,7 @@ export default function App() {
             }
           />
           <Route
-            path="/HabitDetail"
+            path="/habit/:habitId"
             element={
               <ProtectedRoute>
                 <HabitDetail />

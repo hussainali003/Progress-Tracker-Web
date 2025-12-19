@@ -3,11 +3,9 @@ import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 
 import { MdSort } from "react-icons/md";
-
+import { useNavigate } from "react-router";
 import { completeHabit, unCompleteHabit } from "../../../api/habitRow";
-
 import useHabitStore from "../../../store/habitStore";
-
 import DateHeader from "./DateHeader";
 import TickButton from "./TickButton";
 
@@ -19,8 +17,11 @@ const getDateString = (offset) => {
 
 export default function ShowHabits() {
   const dropdownRef = useRef(null);
+  const navigation = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [, setSortBy] = useState({ label: "Ascending", value: "ascending" });
+
   const habits = useHabitStore((state) => state.habits);
   const setCompleteHabit = useHabitStore((state) => state.setCompleteHabit);
   const setUnCompleteHabit = useHabitStore((state) => state.setUnCompleteHabit);
@@ -36,10 +37,14 @@ export default function ShowHabits() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleNavigateHabit = (habitId) => {
+    navigation(`/habit/${habitId}`);
+  };
+
   return (
     <div>
       <header className="flex justify-between py-2 px-4 border-b border-[#4a4a4a]">
-        <p className="text-white">Habit</p>
+        <p className="text-white">Habits</p>
         <div ref={dropdownRef} className="relative w-[8%] flex justify-end">
           <button
             type="button"
@@ -77,11 +82,16 @@ export default function ShowHabits() {
 
         return (
           <div className="flex justify-between py-2 px-4" key={habit.id}>
-            <div className="flex-1">
-              <p className="text-sm" style={{ color: `#${habit.color}` }}>
+            <button
+              type="button"
+              className="flex flex-1 items-start cursor-pointer group"
+              style={{ "--habit-color": `#${habit.color}` }}
+              onClick={() => handleNavigateHabit(habit.id)}
+            >
+              <p className="text-sm text-(--habit-color) group-hover:text-white transition-colors">
                 {habit.habit}
               </p>
-            </div>
+            </button>
 
             <div className="flex flex-1 justify-end gap-[22px]">
               {days.map((offset) => {
