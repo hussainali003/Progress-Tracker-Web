@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
 // #region Sample data
 const data = [
@@ -33,16 +33,18 @@ const data = [
 ];
 
 // #endregion
-const TinyBarChart = () => {
+export default function TinyBarChart() {
   return (
-    <ResponsiveContainer>
-      <BarChart className="rounded px-3 pt-3 bg-[#323232]" barSize={36} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis dataKey="uv" width={"auto"} ticks={[0, 1]} domain={[0, 1]} orientation="right" />
-        <Bar dataKey="uv" fill="#FFFFFF" radius={[4, 4, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
+    <BarChart
+      responsive
+      data={data}
+      barSize={36}
+      className="rounded px-3 pt-3 bg-[#323232]"
+      style={{ width: "100%", height: "100%", aspectRatio: 1 }}
+    >
+      <XAxis dataKey="name" />
+      <YAxis dataKey="uv" width={"auto"} ticks={[0, 1]} domain={[0, 1]} orientation="right" />
+      <Bar dataKey="uv" fill="#FFFFFF" radius={[4, 4, 0, 0]} />
+    </BarChart>
   );
-};
-
-export default TinyBarChart;
+}

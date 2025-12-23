@@ -1,6 +1,9 @@
 import { useState } from "react";
+
 // import { useParams } from "react-router";
 
+import AverageHabitTimeChart from "./charts/AverageHabitTimeChart";
+import HabitYearChart from "./charts/HabitYearChart";
 import WeeklyHabitChart from "./charts/WeeklyHabitChart";
 import Card from "./components/Card";
 import Header from "./components/Header";
@@ -19,11 +22,6 @@ const HABITRANKDATA = [
   },
   {
     id: 3,
-    name: "Drawing",
-    totalCompleteDays: 200,
-  },
-  {
-    id: 4,
     name: "Drawing",
     totalCompleteDays: 200,
   },
@@ -91,10 +89,15 @@ export default function HabitDetail() {
             </div>
           </div>
           <div className="row-span-3 col-span-6">
+            <AverageHabitTimeChart />
+          </div>
+          <div className="row-span-3 col-span-5 bg-[#323232]">
             <WeeklyHabitChart />
           </div>
-          <div className="row-span-3 col-span-7 bg-[#323232]"></div>
           <div className="row-span-3 col-span-3 bg-[#323232]"></div>
+          <div className="row-span-3 col-span-2 bg-[#323232]">
+            <HabitYearChart />
+          </div>
         </div>
         <HabitDetailModal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
