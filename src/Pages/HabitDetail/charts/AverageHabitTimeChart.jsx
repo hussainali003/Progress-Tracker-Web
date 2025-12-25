@@ -40,12 +40,7 @@ const data = [
 
 export default function AverageHabitTimeChart() {
   return (
-    <LineChart
-      responsive
-      data={data}
-      className="rounded pt-3 bg-[#323232]"
-      style={{ width: "100%", height: "100%", aspectRatio: 1 }}
-    >
+    <LineChart responsive data={data} style={{ width: "100%", height: "100%", aspectRatio: 1 }}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       <YAxis width="auto" />

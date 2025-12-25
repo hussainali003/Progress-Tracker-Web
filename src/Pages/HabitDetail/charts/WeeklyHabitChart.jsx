@@ -39,7 +39,6 @@ export default function TinyBarChart() {
       responsive
       data={data}
       barSize={36}
-      className="rounded px-3 pt-3 bg-[#323232]"
       style={{ width: "100%", height: "100%", aspectRatio: 1 }}
     >
       <XAxis dataKey="name" />
