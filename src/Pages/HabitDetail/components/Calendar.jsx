@@ -22,11 +22,12 @@ export default function Calendar() {
       selected={[getDateString(0), getDateString(1), getDateString(2)]}
       classNames={{
         root: `${defaultClassNames.root} text-white`,
-        months: `h-full relative flex flex-wrap gap-8`,
+        months: `${defaultClassNames.months} !max-w`,
         month: `w-full `,
         month_grid: "w-full",
         weeks: "gap-4",
-        month_caption: `${defaultClassNames.month_caption} p-2`,
+        month_caption: `p-2`,
+        caption_label: `${defaultClassNames.caption_label} !z-0`,
         weekday: "text-center text-neutral-400 text-xs",
         day: `text-center py-1 hover:bg-neutral-700`,
         day_button: `w-full h-full text-center cursor-pointer`,
