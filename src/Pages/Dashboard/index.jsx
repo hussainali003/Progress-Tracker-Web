@@ -14,6 +14,7 @@ export default function DashboardPage() {
 
   const setHabits = useHabitStore((state) => state.setHabits);
   const setIsFetchingHabits = useHabitStore((state) => state.setIsFetchingHabits);
+  const setIsError = useHabitStore((state) => state.setIsError);
 
   useEffect(() => {
     const loadHabits = async () => {
@@ -29,6 +30,7 @@ export default function DashboardPage() {
 
         setHabits(data);
       } catch (error) {
+        setIsError(error.message);
         console.error("Failed to parse response body as JSON:", error);
       } finally {
         setIsFetchingHabits(false);
@@ -36,7 +38,7 @@ export default function DashboardPage() {
     };
 
     loadHabits();
-  }, [setHabits, setIsFetchingHabits]);
+  }, [setHabits, setIsFetchingHabits, setIsError]);
 
   return (
     <div className="h-full w-full flex bg-[#171717]">

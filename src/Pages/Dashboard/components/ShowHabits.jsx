@@ -42,7 +42,7 @@ export default function ShowHabits() {
   };
 
   return (
-    <div>
+    <div className="flex flex-1 flex-col">
       <header className="flex justify-between py-2 px-4 border-b border-[#4a4a4a]">
         <p className="text-white">Habits</p>
         <div ref={dropdownRef} className="relative w-[8%] flex justify-end">

@@ -6,6 +6,7 @@ const useHabitStore = create((set) => ({
   // 1. STATE (Data)
   habits: [], // Initial empty array
   isFetchingHabits: false,
+  isError: null,
 
   // 2. ACTIONS (Functions to modify the state)
 
@@ -14,6 +15,9 @@ const useHabitStore = create((set) => ({
 
   // 0. Initial Fetch Actions
   setIsFetchingHabits: (status) => set({ isFetchingHabits: status }),
+
+  // 0.5 Setting Error
+  setIsError: (error) => set({ isError: error }),
 
   // 1. Add new habit
   addHabit: (newHabit) =>

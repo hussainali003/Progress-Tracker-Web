@@ -3,7 +3,7 @@ import WritingBoard from "../../../assets/images/writing-board.svg";
 
 export default function NoHabits({ onOpenModal }) {
   return (
-    <div className="h-full flex flex-col items-center justify-center gap-2">
+    <div className="flex flex-1 flex-col items-center justify-center gap-2">
       <img src={WritingBoard} alt="Empty habits illustration" className="w-32 h-32 opacity-80" />
       <h1 className="text-white">Welcome to Progress Tracker</h1>
       <p className="text-center text-sm text-[#7b7c7c]">
