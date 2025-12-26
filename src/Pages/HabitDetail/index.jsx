@@ -75,7 +75,7 @@ export default function HabitDetail() {
               </button>
             </div>
             <div className="row-span-3 col-span-2 rounded bg-[#323232]">
-              <HabitYearChart />
+              <HabitYearChart totalCompletedDays={habit.stats.totalCompletedDays} />
             </div>
           </div>
           <HabitDetailModal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
