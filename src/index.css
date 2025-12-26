@@ -14,3 +14,9 @@ body,
   width: 100%;
   display: flex;
 }
+
+.recharts-wrapper *:focus {
+  outline: none !important;
+  box-shadow: none !important; /* Optional: also remove any focus shadows */
+  border: none !important;     /* Optional: ensure no border is applied */
+}

@@ -11,7 +11,10 @@ export default function HabitYearChart() {
   ];
 
   return (
-    <PieChart responsive style={{ width: "100%", height: "100%", aspectRatio: 1 }}>
+    <PieChart
+      responsive
+      style={{ width: "100%", height: "100%", aspectRatio: 1, outline: "none", border: "none" }}
+    >
       <Pie
         startAngle={-270}
         endAngle={90}
@@ -21,7 +24,7 @@ export default function HabitYearChart() {
         isAnimationActive={true}
       >
         {data.map((entry, index) => (
-          <Cell key={`cell-${entry.name}`} fill={COLORS[index]} />
+          <Cell style={{ outline: "none" }} key={`cell-${entry.name}`} fill={COLORS[index]} />
         ))}
       </Pie>
       <Legend iconSize={10} verticalAlign="bottom" />

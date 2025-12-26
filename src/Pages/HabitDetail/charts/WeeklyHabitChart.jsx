@@ -41,8 +41,15 @@ export default function TinyBarChart() {
       barSize={36}
       style={{ width: "100%", height: "100%", aspectRatio: 1 }}
     >
-      <XAxis dataKey="name" />
-      <YAxis dataKey="uv" width={"auto"} ticks={[0, 1]} domain={[0, 1]} orientation="right" />
+      <XAxis dataKey="name" tickLine={false} />
+      <YAxis
+        dataKey="uv"
+        tickLine={false}
+        width={"auto"}
+        ticks={[0, 1]}
+        domain={[0, 1]}
+        orientation="right"
+      />
       <Bar dataKey="uv" fill="#FFFFFF" radius={[4, 4, 0, 0]} />
     </BarChart>
   );
