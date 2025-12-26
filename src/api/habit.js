@@ -54,3 +54,21 @@ export async function getHabitsWithRecords() {
 
   return await response.json();
 }
+
+export async function getHabitDetail({ habitId }) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/habits/${habitId}/getHabitDetail`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch habit detail");
+  }
+
+  return await response.json();
+}

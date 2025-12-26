@@ -3,7 +3,7 @@ import { RiPencilFill } from "react-icons/ri";
 
 import { useNavigate } from "react-router";
 
-export default function HabitDetail({ onModalOpen }) {
+export default function HabitDetail({ habitName, onModalOpen }) {
   const navigation = useNavigate();
 
   const handleNavigateToDashboard = () => {
@@ -12,7 +12,7 @@ export default function HabitDetail({ onModalOpen }) {
 
   return (
     <div className="flex justify-between py-2 px-4 border-b border-[#4a4a4a]">
-      <p className="flex items-center  text-white">Drawing</p>
+      <p className="flex items-center  text-white">{habitName}</p>
       <div className="flex items-center gap-1 ml-auto">
         <button
           type="button"
