@@ -22,7 +22,7 @@ export default function Calendar() {
       selected={[getDateString(0), getDateString(1), getDateString(2)]}
       classNames={{
         root: `${defaultClassNames.root} text-white`,
-        months: `${defaultClassNames.months} !max-w`,
+        months: `${defaultClassNames.months} !max-w-none`,
         month: `w-full `,
         month_grid: "w-full",
         weeks: "gap-4",
