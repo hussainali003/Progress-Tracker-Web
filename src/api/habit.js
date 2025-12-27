@@ -72,3 +72,22 @@ export async function getHabitDetail({ habitId }) {
 
   return await response.json();
 }
+
+export async function getUserHabits({ habitId }) {
+  const token = localStorage.getItem("token");
+
+  // i didn't need to send my habitId in params because i don't need habitId but frontend path is same as this so i think we should keep it or i don't know.
+  const response = await fetch(`${API_URL}/habits/${habitId}/getUserHabits`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch users habits");
+  }
+
+  return await response.json();
+}

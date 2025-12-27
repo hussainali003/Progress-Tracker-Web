@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "react-router";
 
-import { getHabitDetail } from "../../api/habit";
+import { getHabitDetail, getUserHabits } from "../../api/habit";
 
 import AverageHabitTimeChart from "./charts/AverageHabitTimeChart";
 import HabitYearChart from "./charts/HabitYearChart";
@@ -10,7 +10,7 @@ import WeeklyHabitChart from "./charts/WeeklyHabitChart";
 
 import Calendar from "./components/Calendar";
 import Card from "./components/Card";
-import HabitLeaderboard from "./components/HabitLeaderBoard";
+import HabitLeaderboard from "./components/HabitLeaderboard";
 import HabitUpdateCompletedDateModal from "./components/HabitUpdateCompletedDateModal";
 import Header from "./components/Header";
 import HabitDetailModal from "./components/modal";
@@ -22,6 +22,7 @@ export default function HabitDetail() {
   const [isHabitUpdateCompletedDateModalOpen, setIsHabitUpdateCompletedDateModalOpen] =
     useState(false);
   const [habit, setHabit] = useState(null);
+  const [userHabits, setUserHabits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(null);
 
@@ -42,6 +43,20 @@ export default function HabitDetail() {
     loadHabitDetail();
   }, [habitId]);
 
+  useEffect(() => {
+    const loadUserHabits = async () => {
+      try {
+        const userHabits = await getUserHabits({ habitId });
+
+        setUserHabits(userHabits);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    loadUserHabits();
+  }, [habitId]);
+
   return (
     <div className="h-full w-full flex bg-[#171717] p-12">
       {isLoading ? (
@@ -54,9 +69,9 @@ export default function HabitDetail() {
           <div className="flex-1 grid grid-rows-7 grid-cols-10 min-h-0 min-w-0 gap-4 p-4">
             <Card title="Current Streak" value={habit.stats.currentStreak} />
             <Card title="Longest Streak" value={habit.stats.longestStreak} />
-            <Card title="Total Completed Days" value={habit.stats.totalCompletedDays} />
+            <Card title="Completed Days" value={habit.stats.totalCompletedDays} />
             <div className="row-span-4 col-span-4 px-3 pt-3 rounded bg-[#323232] min-h-0 flex flex-col">
-              <HabitLeaderboard />
+              <HabitLeaderboard userHabits={userHabits} />
             </div>
             <div className="row-span-3 col-span-6 rounded px-3 pt-3 bg-[#323232]">
               <AverageHabitTimeChart />
