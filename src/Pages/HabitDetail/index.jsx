@@ -1,13 +1,10 @@
+import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router";
-
-import { getHabitDetail, getUserHabits } from "../../api/habit";
-
+import { getHabitDetail, getUserHabits, updateHabitCompletedDates } from "../../api/habit";
 import AverageHabitTimeChart from "./charts/AverageHabitTimeChart";
 import HabitYearChart from "./charts/HabitYearChart";
 import WeeklyHabitChart from "./charts/WeeklyHabitChart";
-
 import Calendar from "./components/Calendar";
 import Card from "./components/Card";
 import HabitLeaderboard from "./components/HabitLeaderboard";
@@ -18,13 +15,16 @@ import HabitDetailModal from "./components/modal";
 export default function HabitDetail() {
   const { habitId } = useParams();
 
+  const [habit, setHabit] = useState(null);
+  const [userHabits, setUserHabits] = useState([]);
+  const [selectedDates, setSelectedDates] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHabitUpdateCompletedDateModalOpen, setIsHabitUpdateCompletedDateModalOpen] =
     useState(false);
-  const [habit, setHabit] = useState(null);
-  const [userHabits, setUserHabits] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(null);
 
   useEffect(() => {
     const loadHabitDetail = async () => {
@@ -33,6 +33,7 @@ export default function HabitDetail() {
         const habitDetail = await getHabitDetail({ habitId });
 
         setHabit(habitDetail);
+        setSelectedDates(habitDetail.completedDates?.map((date) => new Date(date)));
       } catch (error) {
         setIsError(error.message);
       } finally {
@@ -57,6 +58,29 @@ export default function HabitDetail() {
     loadUserHabits();
   }, [habitId]);
 
+  const handleUpdateCompletedDates = async () => {
+    try {
+      setIsLoading(true);
+
+      const habitDetail = await updateHabitCompletedDates({
+        habitId,
+        completedDates: selectedDates.map((date) => DateTime.fromJSDate(date).toISODate()),
+      });
+
+      const userHabits = await getUserHabits({ habitId });
+
+      setUserHabits(userHabits);
+
+      setHabit(habitDetail);
+      setSelectedDates(habitDetail.completedDates?.map((date) => new Date(date)));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setIsHabitUpdateCompletedDateModalOpen(false);
+    }
+  };
+
   return (
     <div className="h-full w-full flex bg-[#171717] p-12">
       {isLoading ? (
@@ -80,7 +104,7 @@ export default function HabitDetail() {
               <WeeklyHabitChart />
             </div>
             <div className="row-span-3 col-span-3 flex flex-1 flex-col px-2 rounded bg-[#323232]">
-              <Calendar />
+              <Calendar selectedDates={selectedDates} setSeletedDates={setSelectedDates} />
               <button
                 type="button"
                 onClick={() => setIsHabitUpdateCompletedDateModalOpen(true)}
@@ -95,6 +119,7 @@ export default function HabitDetail() {
           </div>
           <HabitDetailModal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <HabitUpdateCompletedDateModal
+            onUpdateCompletedDates={handleUpdateCompletedDates}
             isHabitUpdateCompletedDateModalOpen={isHabitUpdateCompletedDateModalOpen}
             onHabitUpdateCompletedDateModalClose={() =>
               setIsHabitUpdateCompletedDateModalOpen(false)

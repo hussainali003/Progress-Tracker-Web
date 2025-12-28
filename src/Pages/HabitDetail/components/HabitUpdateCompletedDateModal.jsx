@@ -1,23 +1,11 @@
-import { useState } from "react";
-
 import { AiOutlineWarning } from "react-icons/ai";
 import Modal from "react-modal";
 
 export default function HabitUpdateCompletedDateModal({
+  onUpdateCompletedDates,
   isHabitUpdateCompletedDateModalOpen,
   onHabitUpdateCompletedDateModalClose,
 }) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleUpdateCompletedDays = async () => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      onHabitUpdateCompletedDateModalClose();
-    }, 1000);
-  };
-
   return (
     <Modal
       isOpen={isHabitUpdateCompletedDateModalOpen}
@@ -46,7 +34,6 @@ export default function HabitUpdateCompletedDateModal({
         <div className="flex items-center justify-end  gap-2 p-3">
           <button
             type="button"
-            disabled={isLoading}
             className="p-2 font-semibold text-xs rounded hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed"
             onClick={onHabitUpdateCompletedDateModalClose}
           >
@@ -54,9 +41,8 @@ export default function HabitUpdateCompletedDateModal({
           </button>
           <button
             type="button"
-            disabled={isLoading}
             className="p-2 font-semibold text-xs text-yellow-500 border rounded border-yellow-500/50 bg-yellow-800/20 hover:bg-yellow-500/20 cursor-pointer disabled:cursor-not-allowed"
-            onClick={handleUpdateCompletedDays}
+            onClick={onUpdateCompletedDates}
           >
             Update
           </button>

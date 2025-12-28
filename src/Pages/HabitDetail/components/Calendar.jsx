@@ -2,13 +2,7 @@ import { DayPicker, getDefaultClassNames } from "react-day-picker";
 
 import { NextMonthButton, PreviousMonthButton } from "./CalendarNavButton";
 
-const getDateString = (offset) => {
-  const date = new Date();
-  date.setDate(date.getDate() - offset);
-  return date;
-};
-
-export default function Calendar() {
+export default function Calendar({ selectedDates, setSeletedDates }) {
   const defaultClassNames = getDefaultClassNames();
 
   return (
@@ -19,7 +13,8 @@ export default function Calendar() {
       }}
       mode="multiple"
       disabled={{ after: new Date() }}
-      selected={[getDateString(0), getDateString(1), getDateString(2)]}
+      selected={selectedDates}
+      onSelect={setSeletedDates}
       classNames={{
         root: `${defaultClassNames.root} text-white`,
         months: `${defaultClassNames.months} !max-w-none`,

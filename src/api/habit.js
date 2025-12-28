@@ -91,3 +91,22 @@ export async function getUserHabits({ habitId }) {
 
   return await response.json();
 }
+
+export async function updateHabitCompletedDates({ habitId, completedDates }) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/habits/${habitId}/updateHabitCompletedDates`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ completedDates }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update completed days");
+  }
+
+  return await response.json();
+}
