@@ -1,10 +1,10 @@
 import { FaCheck } from "react-icons/fa";
 
-export default function TickButton({ checked, onClick }) {
+export default function TickButton({ checked, onModalOpen }) {
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={onModalOpen}
       className={`w-4 h-4 flex items-center justify-center rounded border transition-all duration-200
         ${
           checked

@@ -3,11 +3,14 @@ import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 
 import { MdSort } from "react-icons/md";
+
 import { useNavigate } from "react-router";
-import { completeHabit, unCompleteHabit } from "../../../api/habitRow";
+
 import useHabitStore from "../../../store/habitStore";
+
 import DateHeader from "./DateHeader";
 import TickButton from "./TickButton";
+import UpdateCompleteDateModal from "./UpdateCompleteDateModal";
 
 const getDateString = (offset) => {
   const date = new Date();
@@ -19,12 +22,15 @@ export default function ShowHabits() {
   const dropdownRef = useRef(null);
   const navigation = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedHabitId, setSelectedHabitId] = useState(null);
+  const [isDateCheck, setIsDateCheck] = useState(null);
+
   const [open, setOpen] = useState(false);
   const [, setSortBy] = useState({ label: "Ascending", value: "ascending" });
 
   const habits = useHabitStore((state) => state.habits);
-  const setCompleteHabit = useHabitStore((state) => state.setCompleteHabit);
-  const setUnCompleteHabit = useHabitStore((state) => state.setUnCompleteHabit);
 
   // Close when clicking outside
   useEffect(() => {
@@ -92,51 +98,32 @@ export default function ShowHabits() {
                 {habit.habit}
               </p>
             </button>
-
             <div className="flex flex-1 justify-end gap-[22px]">
               {days.map((offset) => {
                 const date = getDateString(offset);
                 const isChecked = completedDates.includes(DateTime.fromJSDate(date).toISODate());
 
-                const toggleDate = () => {
-                  if (isChecked) {
-                    console.log(date);
-                    // api
-                    unCompleteHabit({
-                      habitId: habit.id,
-                      date: DateTime.fromJSDate(date).toISODate(),
-                    });
-                    // setter
-                    setUnCompleteHabit(habit.id, DateTime.fromJSDate(date).toISODate());
-                  } else {
-                    // api
-                    completeHabit({ habitId: habit.id, date: date });
-                    // setter
-                    setCompleteHabit(habit.id, DateTime.fromJSDate(date).toISODate());
-                  }
-
-                  /* setHabits((prev) =>
-                    prev.map((h) => {
-                      if (h.id !== habit.id) return h;
-
-                      const newDates = isChecked
-                        ? h.completedDates.filter(
-                            (d) => d !== DateTime.fromJSDate(date).toISODate(),
-                          )
-                        : [...(h.completedDates || []), DateTime.fromJSDate(date).toISODate()];
-
-                      return {
-                        ...h,
-                        completedDates: newDates.slice(-4), // keep only last 4
-                      };
-                    }),
-                  );
-                  */
-                };
-
-                return <TickButton key={offset} checked={isChecked} onClick={toggleDate} />;
+                return (
+                  <TickButton
+                    key={offset}
+                    checked={isChecked}
+                    onModalOpen={() => {
+                      setIsDateCheck(isChecked);
+                      setSelectedDate(date);
+                      setSelectedHabitId(habit.id);
+                      setIsModalOpen(true);
+                    }}
+                  />
+                );
               })}
             </div>
+            <UpdateCompleteDateModal
+              isDateChecked={isDateCheck}
+              date={selectedDate}
+              habitId={selectedHabitId}
+              isModalOpen={isModalOpen}
+              onModalClose={() => setIsModalOpen(false)}
+            />
           </div>
         );
       })}
