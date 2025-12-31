@@ -53,9 +53,14 @@ export default function HabitForm({ onClose }) {
 
       await createHabitSchema.validate(formData, { abortEarly: false });
 
-      const data = await createHabit(formData);
+      const habitDetail = await createHabit(formData);
 
-      addHabit(data);
+      addHabit({
+        id: habitDetail.id,
+        habit: habitDetail.habit,
+        color: habitDetail.color,
+        completedDates: [],
+      });
 
       onClose();
     } catch (err) {
