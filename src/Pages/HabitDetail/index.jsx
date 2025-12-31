@@ -117,7 +117,7 @@ export default function HabitDetail() {
               <HabitYearChart totalCompletedDays={habit.stats.totalCompletedDays} />
             </div>
           </div>
-          <HabitDetailModal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <HabitDetailModal habitId={habit.id} isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <HabitUpdateCompletedDateModal
             onUpdateCompletedDates={handleUpdateCompletedDates}
             isHabitUpdateCompletedDateModalOpen={isHabitUpdateCompletedDateModalOpen}

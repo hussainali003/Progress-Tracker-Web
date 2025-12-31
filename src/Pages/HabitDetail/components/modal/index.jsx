@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import ModalForm from "./ModalForm";
 
-export default function HabitDetailModal({ isModalOpen, onClose }) {
+export default function HabitDetailModal({ habitId, isModalOpen, onClose }) {
   return (
     <Modal
       isOpen={isModalOpen}
@@ -19,7 +19,7 @@ export default function HabitDetailModal({ isModalOpen, onClose }) {
         },
       }}
     >
-      <ModalForm onClose={onClose} />
+      <ModalForm habitId={habitId} onClose={onClose} />
     </Modal>
   );
 }

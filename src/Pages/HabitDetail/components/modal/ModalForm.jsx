@@ -5,6 +5,8 @@ import { FaTrash } from "react-icons/fa";
 import { GoBell } from "react-icons/go";
 import { TiArrowRepeat } from "react-icons/ti";
 
+import { getHabitDetail } from "../../../../api/habit";
+
 import HabitDeleteModal from "../HabitDeleteModal";
 
 import ColorDropDownButton from "./components/ColorDropDownButton";
@@ -13,20 +15,42 @@ import EndDateDropDownButton from "./components/EndDateDropDownButton";
 import RepeatDropDownButton from "./components/RepeatDropdownButton";
 import TimeInput from "./components/TimeInput";
 
-export default function ModalForm({ onClose }) {
-  const [habit, setHabit] = useState("");
-  const [color, setColor] = useState("5487F6");
-  const [repeat, setRepeat] = useState([0, 1, 2, 3, 4, 5, 6]);
+export default function ModalForm({ habitId, onClose }) {
+  const [name, setName] = useState("");
+  const [color, setColor] = useState("");
+  const [repeat, setRepeat] = useState([]);
   const [endCondition, setEndCondition] = useState({ label: "Never", value: "never" });
   const [endDate, setEndDate] = useState(null);
-  const [reminder, setReminder] = useState(540); // default to 9:00 am
+  const [reminder, setReminder] = useState(590); // default to 9:00 am
+
   const [isHabitDeleteModalOpen, setIsHabitDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, _] = useState(null);
+  const [isError, setIsError] = useState(null);
+
+  useEffect(() => {
+    const loadHabitDetail = async () => {
+      try {
+        setIsLoading(true);
+        const habit = await getHabitDetail({ habitId });
+
+        setName(habit.name);
+        setColor(habit.color);
+        setRepeat(habit.repeatDays);
+        setEndDate(habit.endDate);
+        setReminder(habit.reminder);
+      } catch (error) {
+        setIsError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadHabitDetail();
+  }, [habitId]);
 
   // Clear end date if end condition is not "on a date"
   useEffect(() => {
-    if (endCondition.value !== "on a date") {
+    if (endCondition?.value !== "on a date") {
       setEndDate(null);
     }
   }, [endCondition]);
@@ -40,7 +64,11 @@ export default function ModalForm({ onClose }) {
     }, 1000);
   };
 
-  return (
+  return isLoading ? (
+    <div className="h-full flex flex-1 items-center justify-center">
+      <div className="w-8 h-8 border-2 border-[#FFFFFF] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  ) : (
     <div className="h-full flex flex-col text-white">
       {/* Habit Name */}
       <div className="flex border border-[#333333]">
@@ -49,8 +77,8 @@ export default function ModalForm({ onClose }) {
           className="py-3 text-[#898889] placeholder-[#898889] bg-transparent focus:outline-none"
           placeholder="Enter New Habit Name"
           type="text"
-          value={habit}
-          onChange={(e) => setHabit(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
       {/* Habit Details */}
@@ -63,7 +91,7 @@ export default function ModalForm({ onClose }) {
       </div>
       <div
         className={`w-full flex justify-between px-3 py-3 border border-t-0 border-[#333333] ${
-          endCondition.value === "never" ? "items-center" : "items-start"
+          endCondition?.value === "never" ? "items-center" : "items-start"
         }`}
       >
         <div className="flex gap-2 items-center">
@@ -76,7 +104,7 @@ export default function ModalForm({ onClose }) {
             setEndCondition={setEndCondition}
             label="Never"
           />
-          {endCondition.value === "on a date" && (
+          {endCondition?.value === "on a date" && (
             <DateDropDownButton label="end" date={endDate} onDateChange={setEndDate} />
           )}
         </div>
@@ -89,7 +117,7 @@ export default function ModalForm({ onClose }) {
         <TimeInput reminder={reminder} setReminder={setReminder} />
       </div>
       {/* error message */}
-      {error && <p className="mt-3 text-center  text-red-400">{error}</p>}
+      {isError && <p className="mt-3 text-center  text-red-400">{isError}</p>}
       {/* Footer */}
       <div className="flex mt-auto px-3 py-3 border-t border-[#333333] bg-[#242424]">
         <button
@@ -120,6 +148,7 @@ export default function ModalForm({ onClose }) {
         </div>
       </div>
       <HabitDeleteModal
+        habitId={habitId}
         isHabitDeleteModalOpen={isHabitDeleteModalOpen}
         onHabitDeleteModalClose={() => setIsHabitDeleteModalOpen(false)}
       />

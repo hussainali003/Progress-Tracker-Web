@@ -110,3 +110,21 @@ export async function updateHabitCompletedDates({ habitId, completedDates }) {
 
   return await response.json();
 }
+
+export async function deleteHabit({habitId}){
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/habits/${habitId}/deleteHabit`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete habit");
+  }
+
+  return await response.json();
+}
