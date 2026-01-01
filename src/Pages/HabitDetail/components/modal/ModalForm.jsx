@@ -5,7 +5,9 @@ import { FaTrash } from "react-icons/fa";
 import { GoBell } from "react-icons/go";
 import { TiArrowRepeat } from "react-icons/ti";
 
-import { getHabitDetail } from "../../../../api/habit";
+import { updateHabit } from "../../../../api/habit";
+
+import useHabitStore from "../../../../store/habitStore";
 
 import HabitDeleteModal from "../HabitDeleteModal";
 
@@ -16,9 +18,12 @@ import RepeatDropDownButton from "./components/RepeatDropdownButton";
 import TimeInput from "./components/TimeInput";
 
 export default function ModalForm({ habitId, onClose }) {
+  const habit = useHabitStore((state) => state.habit);
+  const setHabit = useHabitStore((state) => state.setHabit);
+
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
-  const [repeat, setRepeat] = useState([]);
+  const [repeatDays, setRepeatDays] = useState([]);
   const [endCondition, setEndCondition] = useState({ label: "Never", value: "never" });
   const [endDate, setEndDate] = useState(null);
   const [reminder, setReminder] = useState(590); // default to 9:00 am
@@ -28,40 +33,43 @@ export default function ModalForm({ habitId, onClose }) {
   const [isError, setIsError] = useState(null);
 
   useEffect(() => {
-    const loadHabitDetail = async () => {
-      try {
-        setIsLoading(true);
-        const habit = await getHabitDetail({ habitId });
+    setName(habit.name);
+    setColor(habit.color);
+    setRepeatDays(habit.repeatDays);
+    setEndDate(habit.endDate);
+    setReminder(habit.reminder);
 
-        setName(habit.name);
-        setColor(habit.color);
-        setRepeat(habit.repeatDays);
-        setEndDate(habit.endDate);
-        setReminder(habit.reminder);
-      } catch (error) {
-        setIsError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadHabitDetail();
-  }, [habitId]);
-
-  // Clear end date if end condition is not "on a date"
-  useEffect(() => {
-    if (endCondition?.value !== "on a date") {
-      setEndDate(null);
+    if (habit.endDate && habit.endDate instanceof Date) {
+      setEndCondition({ label: "On a date", value: "on a date" });
     }
-  }, [endCondition]);
+  }, [habit]);
 
   const handleUpdateHabit = async () => {
-    setIsLoading(true);
+    try {
+      const habitNewDetails = {
+        name: name,
+        color: color,
+        reminder: reminder,
+        repeatDays: repeatDays,
+      };
 
-    setTimeout(() => {
+      // Clear end date if end condition is not "on a date"
+      if (endCondition?.value !== "never") {
+        if (endDate && endDate instanceof Date) habitNewDetails.endDate = endDate;
+      }
+
+      if (endCondition?.value === "never") habitNewDetails.endDate = null;
+
+      const newHabit = await updateHabit({ habitId, habitNewDetails });
+
+      setHabit(newHabit);
+
       onClose();
+    } catch (error) {
+      setIsError(error.message);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return isLoading ? (
@@ -87,7 +95,7 @@ export default function ModalForm({ habitId, onClose }) {
           <TiArrowRepeat color="white" size={18} />
           <h1 className="text-white">Repeat</h1>
         </div>
-        <RepeatDropDownButton repeat={repeat} setRepeat={setRepeat} />
+        <RepeatDropDownButton repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
       </div>
       <div
         className={`w-full flex justify-between px-3 py-3 border border-t-0 border-[#333333] ${
@@ -143,7 +151,7 @@ export default function ModalForm({ habitId, onClose }) {
             onClick={handleUpdateHabit}
             className="p-2 font-medium text-sm text-white rounded-sm bg-[#5487f6] cursor-pointer disabled:bg-[#505050] disabled:text-gray-400 disabled:cursor-not-allowed"
           >
-            Save
+            Update
           </button>
         </div>
       </div>

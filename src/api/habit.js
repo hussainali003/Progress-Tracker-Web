@@ -70,7 +70,18 @@ export async function getHabitDetail({ habitId }) {
     throw new Error("Failed to fetch habit detail");
   }
 
-  return await response.json();
+  const data = await response.json().then((data) => {
+    if (typeof data.endDate === "string") {
+      return {
+        ...data,
+        endDate: new Date(data.endDate),
+      };
+    }
+
+    return data;
+  });
+
+  return data;
 }
 
 export async function getUserHabits({ habitId }) {
@@ -111,7 +122,7 @@ export async function updateHabitCompletedDates({ habitId, completedDates }) {
   return await response.json();
 }
 
-export async function deleteHabit({habitId}){
+export async function deleteHabit({ habitId }) {
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${API_URL}/habits/${habitId}/deleteHabit`, {
@@ -119,7 +130,7 @@ export async function deleteHabit({habitId}){
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-    }
+    },
   });
 
   if (!response.ok) {
@@ -127,4 +138,43 @@ export async function deleteHabit({habitId}){
   }
 
   return await response.json();
+}
+
+export async function updateHabit({ habitId, habitNewDetails }) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/habits/${habitId}/updateHabit`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name: habitNewDetails.name,
+      color: habitNewDetails.color,
+      repeat_days: habitNewDetails.repeatDays,
+      reminder: habitNewDetails.reminder,
+      end_date:
+        habitNewDetails.endDate === null
+          ? null
+          : habitNewDetails.endDate.toLocaleDateString("en-CA"),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to upadate a habit");
+  }
+
+  const data = await response.json().then((data) => {
+    if (typeof data.endDate === "string") {
+      return {
+        ...data,
+        endDate: new Date(data.endDate),
+      };
+    }
+
+    return data;
+  });
+
+  return data;
 }

@@ -3,7 +3,7 @@ import { RiPencilFill } from "react-icons/ri";
 
 import { useNavigate } from "react-router";
 
-export default function HabitDetail({ habitName, onModalOpen }) {
+export default function HabitDetail({ habitName, habitColor, onModalOpen }) {
   const navigation = useNavigate();
 
   const handleNavigateToDashboard = () => {
@@ -12,7 +12,9 @@ export default function HabitDetail({ habitName, onModalOpen }) {
 
   return (
     <div className="flex justify-between py-2 px-4 border-b border-[#4a4a4a]">
-      <p className="flex items-center  text-white">{habitName}</p>
+      <p className="flex items-center  text-white" style={{ color: `#${habitColor}` }}>
+        {habitName}
+      </p>
       <div className="flex items-center gap-1 ml-auto">
         <button
           type="button"

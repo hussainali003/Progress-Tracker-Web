@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaChevronUp } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 
-export default function RepeatDropDownButton({ repeat, setRepeat }) {
+export default function RepeatDropDownButton({ repeatDays, setRepeatDays }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -21,7 +21,7 @@ export default function RepeatDropDownButton({ repeat, setRepeat }) {
     const isChecked = e.target.checked;
 
     if (isChecked) {
-      setRepeat((prevState) => {
+      setRepeatDays((prevState) => {
         if (!prevState.includes(opt)) {
           return [...prevState, opt];
         } else {
@@ -29,16 +29,16 @@ export default function RepeatDropDownButton({ repeat, setRepeat }) {
         }
       });
     } else {
-      setRepeat((prevState) => prevState.filter((item) => item !== opt));
+      setRepeatDays((prevState) => prevState.filter((item) => item !== opt));
     }
   };
 
   const handleEveryDayCheck = (e) => {
     const isChecked = e.target.checked;
     if (isChecked) {
-      setRepeat([0, 1, 2, 3, 4, 5, 6]);
+      setRepeatDays([0, 1, 2, 3, 4, 5, 6]);
     } else {
-      setRepeat([]);
+      setRepeatDays([]);
     }
   };
 
@@ -49,11 +49,11 @@ export default function RepeatDropDownButton({ repeat, setRepeat }) {
         onClick={() => setOpen(!open)}
         className="w-full flex justify-between items-center px-2 py-2 text-xs text-start text-white rounded bg-neutral-800"
       >
-        {repeat?.length === 7
+        {repeatDays?.length === 7
           ? "Every Day"
-          : repeat?.length === 0
+          : repeatDays?.length === 0
             ? "No Days Selected"
-            : `${repeat?.length} Days Selected`}
+            : `${repeatDays?.length} Days Selected`}
         {open ? <FaChevronUp /> : <FaChevronDown />}
       </button>
 
@@ -63,7 +63,11 @@ export default function RepeatDropDownButton({ repeat, setRepeat }) {
             className={`flex justify-between px-3 py-2 text-xs hover:bg-neutral-700 cursor-pointer rounded-t`}
           >
             <p className="text-start">Every Day</p>
-            <input type="checkbox" checked={repeat?.length === 7} onChange={handleEveryDayCheck} />
+            <input
+              type="checkbox"
+              checked={repeatDays?.length === 7}
+              onChange={handleEveryDayCheck}
+            />
           </div>
           {options.map((opt, index) => (
             <div
@@ -74,7 +78,7 @@ export default function RepeatDropDownButton({ repeat, setRepeat }) {
               <p className="text-start">{opt.label}</p>
               <input
                 type="checkbox"
-                checked={repeat?.includes(opt.value)}
+                checked={repeatDays?.includes(opt.value)}
                 onChange={(e) => handleCheck(e, opt.value)}
               />
             </div>

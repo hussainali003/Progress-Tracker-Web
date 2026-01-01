@@ -5,6 +5,7 @@ import { create } from "zustand";
 const useHabitStore = create((set) => ({
   // 1. STATE (Data)
   habits: [], // Initial empty array
+  habit: null, // habit null or {}
   isFetchingHabits: false,
   isError: null,
 
@@ -12,6 +13,12 @@ const useHabitStore = create((set) => ({
 
   // -1. Initializes the state when data is fetched from the server
   setHabits: (fetchedHabits) => set({ habits: fetchedHabits }),
+
+  // -1.5 Initializes the habit when habit detail is fetched from the server
+  setHabit: (updates) =>
+    set((state) => ({
+      habit: state.habit ? { ...state.habit, ...updates } : updates,
+    })),
 
   // 0. Initial Fetch Actions
   setIsFetchingHabits: (status) => set({ isFetchingHabits: status }),

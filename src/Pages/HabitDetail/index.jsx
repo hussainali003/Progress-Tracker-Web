@@ -1,10 +1,15 @@
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+
 import { getHabitDetail, getUserHabits, updateHabitCompletedDates } from "../../api/habit";
+
+import useHabitStore from "../../store/habitStore";
+
 import AverageHabitTimeChart from "./charts/AverageHabitTimeChart";
 import HabitYearChart from "./charts/HabitYearChart";
 import WeeklyHabitChart from "./charts/WeeklyHabitChart";
+
 import Calendar from "./components/Calendar";
 import Card from "./components/Card";
 import HabitLeaderboard from "./components/HabitLeaderboard";
@@ -15,7 +20,9 @@ import HabitDetailModal from "./components/modal";
 export default function HabitDetail() {
   const { habitId } = useParams();
 
-  const [habit, setHabit] = useState(null);
+  const habit = useHabitStore((state) => state.habit);
+  const setHabit = useHabitStore((state) => state.setHabit);
+
   const [userHabits, setUserHabits] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
 
@@ -89,7 +96,11 @@ export default function HabitDetail() {
         </div>
       ) : habit ? (
         <div className="h-full w-full flex flex-col border border-[#4a4a4a] rounded-md">
-          <Header habitName={habit.name} onModalOpen={() => setIsModalOpen(true)} />
+          <Header
+            habitName={habit.name}
+            habitColor={habit.color}
+            onModalOpen={() => setIsModalOpen(true)}
+          />
           <div className="flex-1 grid grid-rows-7 grid-cols-10 min-h-0 min-w-0 gap-4 p-4">
             <Card title="Current Streak" value={habit.stats.currentStreak} />
             <Card title="Longest Streak" value={habit.stats.longestStreak} />
@@ -117,7 +128,11 @@ export default function HabitDetail() {
               <HabitYearChart totalCompletedDays={habit.stats.totalCompletedDays} />
             </div>
           </div>
-          <HabitDetailModal habitId={habit.id} isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <HabitDetailModal
+            habitId={habit.id}
+            isModalOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
           <HabitUpdateCompletedDateModal
             onUpdateCompletedDates={handleUpdateCompletedDates}
             isHabitUpdateCompletedDateModalOpen={isHabitUpdateCompletedDateModalOpen}
