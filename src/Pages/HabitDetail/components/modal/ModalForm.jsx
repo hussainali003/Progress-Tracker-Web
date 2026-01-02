@@ -8,9 +8,8 @@ import { TiArrowRepeat } from "react-icons/ti";
 import { updateHabit } from "../../../../api/habit";
 
 import useHabitStore from "../../../../store/habitStore";
-
+import { updateHabitSchema } from "../../../../validation/createSchema";
 import HabitDeleteModal from "../HabitDeleteModal";
-
 import ColorDropDownButton from "./components/ColorDropDownButton";
 import DateDropDownButton from "./components/DateDropDownButton";
 import EndDateDropDownButton from "./components/EndDateDropDownButton";
@@ -60,12 +59,20 @@ export default function ModalForm({ habitId, onClose }) {
 
       if (endCondition?.value === "never") habitNewDetails.endDate = null;
 
+      await updateHabitSchema.validate(habitNewDetails, { abortEarly: false });
+
       const newHabit = await updateHabit({ habitId, habitNewDetails });
 
       setHabit(newHabit);
 
       onClose();
     } catch (error) {
+      if (error.name === "ValidationError") {
+        console.log(error.errors);
+        setIsError(error.errors[0]);
+      } else {
+        setIsError(error.message || "An unknown registration error occurred.");
+      }
       setIsError(error.message);
     } finally {
       setIsLoading(false);
