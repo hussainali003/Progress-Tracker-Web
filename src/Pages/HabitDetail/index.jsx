@@ -109,7 +109,7 @@ export default function HabitDetail() {
               <HabitLeaderboard userHabits={userHabits} />
             </div>
             <div className="row-span-3 col-span-6 rounded px-3 pt-3 bg-[#323232]">
-              <AverageHabitTimeChart />
+              <AverageHabitTimeChart data={habit.minutes_spent} />
             </div>
             <div className="row-span-3 col-span-5 rounded px-3 pt-3 bg-[#323232]">
               <WeeklyHabitChart />

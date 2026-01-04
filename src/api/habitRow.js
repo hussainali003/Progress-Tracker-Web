@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:3000"; // your backend port
 
-export async function completeHabit({ habitId, date }) {
+export async function completeHabit({ habitId, date, minutes_spent }) {
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${API_URL}/habitRecords/${habitId}/habitRecord`, {
@@ -9,7 +9,7 @@ export async function completeHabit({ habitId, date }) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ date }),
+    body: JSON.stringify({ date, minutes_spent }),
   });
 
   if (!response.ok) {

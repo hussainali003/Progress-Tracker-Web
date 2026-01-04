@@ -18,7 +18,7 @@ export default function UpdateCompleteDateModal({
   isModalOpen,
   onModalClose,
 }) {
-  const [minutes, setMinutes] = useState(30);
+  const [minutes, setMinutes] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(null);
 
@@ -62,6 +62,7 @@ export default function UpdateCompleteDateModal({
       await completeHabit({
         habitId,
         date: DateTime.fromJSDate(date).toISODate(),
+        minutes_spent: minutes,
       });
 
       setCompleteHabit(habitId, DateTime.fromJSDate(date).toISODate());
@@ -95,16 +96,32 @@ export default function UpdateCompleteDateModal({
         },
       }}
     >
-      <div className="flex items-center gap-2 px-3 py-3 text-white">
+      <div className="flex items-center gap-2 px-3 pt-3 pb-1 text-white">
         <CiTimer size={20} />
         <p className="text-sm font-semibold">How much time (minutes) you do habit today.</p>
         <input
-          className="w-[70px] ml-8 pl-2 text-white border border-[#4a4a4a] rounded focus:outline-none"
+          min={1}
+          max={1440}
+          className="w-[70px] ml-8 pl-2 text-white border placeholder:text-xs border-[#4a4a4a] rounded focus:outline-none"
           type="number"
           placeholder="minutes"
           value={minutes}
           onChange={(e) => setMinutes(e.target.value)}
         />
+      </div>
+      <div className="flex flex-1 items-center gap-2 px-10 pb-3 text-white">
+        {minutesList.map((item) => (
+          <button
+            key={item}
+            type="button"
+            className={`text-center text-xs w-8 h-6 border rounded cursor-pointer ${
+              minutes === item ? "border-white" : "border-[#4a4a4a] hover:opacity-60"
+            }`}
+            onClick={() => setMinutes(item)}
+          >
+            {item}
+          </button>
+        ))}
       </div>
       {isError && (
         <div className="flex flex-1 items-center justify-center pb-3">
@@ -134,3 +151,5 @@ export default function UpdateCompleteDateModal({
     </Modal>
   );
 }
+
+const minutesList = [1, 5, 15, 30, 60];
