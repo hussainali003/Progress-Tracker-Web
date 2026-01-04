@@ -49,7 +49,7 @@ export default function HabitDetail() {
     };
 
     loadHabitDetail();
-  }, [habitId]);
+  }, [habitId, setHabit]);
 
   useEffect(() => {
     const loadUserHabits = async () => {
