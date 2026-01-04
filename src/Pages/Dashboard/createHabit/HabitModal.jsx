@@ -4,6 +4,7 @@ import HabitForm from "./HabitForm";
 export default function HabitModal({ isOpen, onClose }) {
   return (
     <Modal
+      ariaHideApp={false}
       isOpen={isOpen}
       onRequestClose={onClose}
       style={{
