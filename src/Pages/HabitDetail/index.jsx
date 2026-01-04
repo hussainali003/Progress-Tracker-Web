@@ -125,7 +125,7 @@ export default function HabitDetail() {
               </button>
             </div>
             <div className="row-span-3 col-span-2 rounded bg-[#323232]">
-              <HabitYearChart totalCompletedDays={habit.stats.totalCompletedDays} />
+              <HabitYearChart yearCompletedDates={habit.stats.yearCompletedDates} />
             </div>
           </div>
           <HabitDetailModal

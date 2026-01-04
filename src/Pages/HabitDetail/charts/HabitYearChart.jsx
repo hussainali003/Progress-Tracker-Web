@@ -1,12 +1,12 @@
 import { Cell, Legend, Pie, PieChart } from "recharts";
 
-export default function HabitYearChart({ totalCompletedDays }) {
+export default function HabitYearChart({ yearCompletedDates }) {
   const totalDaysInYear = 365;
-  const remainingDays = totalDaysInYear - totalCompletedDays;
+  const remainingDays = totalDaysInYear - yearCompletedDates;
 
   const data = [
     { name: "YEAR", value: remainingDays },
-    { name: "COMPLETED HABIT DAYS", value: totalCompletedDays },
+    { name: "COMPLETED HABIT DAYS", value: yearCompletedDates },
   ];
 
   return (
