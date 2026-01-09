@@ -12,34 +12,32 @@ import HabitDetail from "./Pages/HabitDetail";
 export default function App() {
   return (
     <Router>
-      <div className="flex w-full h-full">
-        <Routes>
-          {/* splash screen — decides where to go */}
-          <Route path="/" element={<AuthPage />} />
+      <Routes>
+        {/* splash screen — decides where to go */}
+        <Route path="/" element={<AuthPage />} />
 
-          {/* public routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+        {/* public routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
-          {/* protected routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/habit/:habitId"
-            element={
-              <ProtectedRoute>
-                <HabitDetail />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </div>
+        {/* protected routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/habit/:habitId"
+          element={
+            <ProtectedRoute>
+              <HabitDetail />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

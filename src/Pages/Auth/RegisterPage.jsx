@@ -57,7 +57,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="h-full w-full flex">
+    <div className="flex flex-1">
       <div className="h-full flex flex-1 flex-col items-center justify-center px-24 bg-[#2F262F]">
         <button
           type="button"

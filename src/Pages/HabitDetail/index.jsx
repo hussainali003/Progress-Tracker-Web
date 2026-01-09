@@ -89,7 +89,7 @@ export default function HabitDetail() {
   };
 
   return (
-    <div className="h-full w-full flex bg-[#171717] p-12">
+    <div className="flex flex-1 p-12 bg-[#171717]">
       {isLoading ? (
         <div className="flex flex-1 items-center justify-center">
           <div className="w-8 h-8 border-2 border-[#FFFFFF] border-t-transparent rounded-full animate-spin"></div>

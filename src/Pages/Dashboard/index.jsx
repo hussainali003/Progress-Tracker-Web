@@ -41,7 +41,7 @@ export default function DashboardPage() {
   }, [setHabits, setIsFetchingHabits, setIsError]);
 
   return (
-    <div className="h-full w-full flex bg-[#171717]">
+    <div className="flex flex-1 bg-[#171717]">
       <ControlPanel onOpenModal={() => setIsModalOpen(true)} />
       <DisplayPanel onOpenModal={() => setIsModalOpen(true)} />
       <HabitModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

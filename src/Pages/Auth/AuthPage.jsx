@@ -18,7 +18,7 @@ export default function AuthPage() {
   }, [navigate]);
 
   return (
-    <div className="h-full w-full flex items-center justify-center bg-[#171717]">
+    <div className="flex flex-1 items-center justify-center bg-[#171717]">
       <div className="w-5 h-5 border-2 border-[#2F262F] border-t-transparent rounded-full animate-spin"></div>
     </div>
   );
