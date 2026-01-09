@@ -9,8 +9,6 @@ import { useNavigate } from "react-router";
 
 import { loginUser, registerUser } from "../../api/auth";
 
-import authImage from "../../assets/images/authImage.jpg";
-
 import { registerSchema } from "../../validation/authSchema";
 
 export default function RegisterPage() {
@@ -23,7 +21,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
 
   const handleNavigateToLogin = () => {
-    navigation("/");
+    navigation("/login");
   };
 
   const handleRegister = async (e) => {
@@ -57,8 +55,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex flex-1">
-      <div className="h-full flex flex-1 flex-col items-center justify-center px-24 bg-[#2F262F]">
+    <div className="flex flex-1 items-center justify-center bg-[#171717]">
+      <div className="flex flex-col w-[250px] shrink-0 sm:w-[30%] items-center justify-center">
         <button
           type="button"
           onClick={handleNavigateToLogin}
@@ -76,30 +74,30 @@ export default function RegisterPage() {
         {/* error message */}
         {/* input fields */}
         <form className="w-full" onSubmit={handleRegister}>
-          <div className="w-full flex items-center justify-center gap-1 mb-3 mt-4 py-2 px-4 rounded-xl bg-white ">
+          <div className="w-full flex items-center justify-center gap-1 mb-3 mt-4 py-2 px-4 rounded-xl bg-[#424242] ">
             <FaUser color="#909699" />
             <input
-              className="w-full text-[#2F262F] placeholder-[#909699] border-0 bg-transparent focus:outline-none"
+              className="w-full text-[#FFFFFF] placeholder-[#909699] border-0 bg-transparent focus:outline-none"
               placeholder="Name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="w-full flex items-center justify-center gap-1 mb-3 py-2 px-4 rounded-xl bg-white ">
+          <div className="w-full flex items-center justify-center gap-1 mb-3 py-2 px-4 rounded-xl bg-[#424242] ">
             <FaEnvelope color="#909699" />
             <input
-              className="w-full text-[#2F262F] placeholder-[#909699] border-0 bg-transparent focus:outline-none"
+              className="w-full text-[#FFFFFF] placeholder-[#909699] border-0 bg-transparent focus:outline-none"
               placeholder="Email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="w-full flex items-center justify-center gap-1 mb-3 py-2 px-4 rounded-xl bg-white ">
+          <div className="w-full flex items-center justify-center gap-1 mb-3 py-2 px-4 rounded-xl bg-[#424242] ">
             <FaLock color="#909699" />
             <input
-              className="w-full text-[#2F262F] placeholder-[#909699] border-0 bg-transparent focus:outline-none"
+              className="w-full text-[#FFFFFF] placeholder-[#909699] border-0 bg-transparent focus:outline-none"
               placeholder="Password"
               type="password"
               value={password}
@@ -121,7 +119,6 @@ export default function RegisterPage() {
             )}
           </button>
         </form>
-        {/* divider */}
         <div className="w-full flex items-center gap-3 mb-4">
           <div className="flex-1 h-px bg-[#909699]" />
           <p className="text-sm text-[#909699] whitespace-nowrap">Or sign up with</p>
@@ -134,9 +131,6 @@ export default function RegisterPage() {
         >
           <FcGoogle size={20} />
         </button>
-      </div>
-      <div className="h-full flex-3">
-        <img className="h-full w-full" src={authImage} alt="authImage" />
       </div>
     </div>
   );
