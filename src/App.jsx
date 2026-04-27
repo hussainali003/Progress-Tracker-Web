@@ -3,11 +3,11 @@ import { Route, BrowserRouter as Router, Routes } from "react-router";
 import "react-day-picker/dist/style.css";
 
 import ProtectedRoute from "./navigation/ProtectedRoute";
-import AuthPage from "./Pages/Auth/AuthPage";
-import LoginPage from "./Pages/Auth/LoginPage";
-import RegisterPage from "./Pages/Auth/RegisterPage";
-import DashboardPage from "./Pages/Dashboard";
-import HabitDetail from "./Pages/HabitDetail";
+import AuthPage from "./pages/Auth/AuthPage";
+import LoginPage from "./pages/Auth/LoginPage";
+import RegisterPage from "./pages/Auth/RegisterPage";
+import DashboardPage from "./pages/Dashboard";
+import HabitDetail from "./pages/HabitDetail";
 
 export default function App() {
   return (
