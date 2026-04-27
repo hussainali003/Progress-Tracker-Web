@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 
 import { useNavigate } from "react-router";
+
+import { ValidationError } from "yup";
 
 import { loginUser } from "../../api/auth";
 
@@ -11,17 +13,17 @@ import AuthForm from "./components/AuthForm";
 export default function LoginPage() {
   const navigation = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const handleNavigateToRegister = () => {
     navigation("/register");
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault(); // prevents full page refresh
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       setError("");
       setIsLoading(true);
@@ -36,10 +38,12 @@ export default function LoginPage() {
 
       navigation("/dashboard");
     } catch (err) {
-      if (err.name === "ValidationError") {
+      if (err instanceof ValidationError) {
         setError(err.errors[0]);
-      } else {
+      } else if (err instanceof Error) {
         setError(err.message || "An unknown registration error occurred.");
+      } else {
+        setError("An unknown registration error occurred.");
       }
     } finally {
       setIsLoading(false);

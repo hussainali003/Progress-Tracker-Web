@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 
 import { useNavigate } from "react-router";
+
+import { ValidationError } from "yup";
 
 import { loginUser, registerUser } from "../../api/auth";
 
@@ -11,18 +13,18 @@ import AuthForm from "./components/AuthForm";
 export default function RegisterPage() {
   const navigation = useNavigate();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const handleNavigateToLogin = () => {
     navigation("/login");
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault(); // prevents full page refresh
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       setError("");
       setIsLoading(true);
@@ -33,18 +35,18 @@ export default function RegisterPage() {
 
       await registerUser({ name, email, password });
 
-      // 2. Auto-login user after successful registration
       const loginResponse = await loginUser({ email, password });
 
-      // 3. Save token to localStorage
       localStorage.setItem("token", loginResponse.token);
 
       navigation("/dashboard");
     } catch (err) {
-      if (err.name === "ValidationError") {
+      if (err instanceof ValidationError) {
         setError(err.errors[0]);
-      } else {
+      } else if (err instanceof Error) {
         setError(err.message || "An unknown registration error occurred.");
+      } else {
+        setError("An unknown registration error occurred.");
       }
     } finally {
       setIsLoading(false);

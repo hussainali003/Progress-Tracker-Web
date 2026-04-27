@@ -4,11 +4,9 @@ import { useNavigate } from "react-router";
 export default function AuthPage() {
   const navigate = useNavigate();
 
-  // useEffect run after the first render
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // Simulate slight delay (optional)
     const id = setTimeout(() => {
       if (token) {
         navigate("/dashboard", { replace: true });

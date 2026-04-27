@@ -1,7 +1,6 @@
 import * as yup from "yup";
 
-// --- Register Schema ---
-export const registerSchema = yup.object().shape({
+export const registerSchema = yup.object({
   name: yup
     .string()
     .required("Name is required")
@@ -20,9 +19,11 @@ export const registerSchema = yup.object().shape({
     ),
 });
 
-// --- Login Schema ---
-export const loginSchema = yup.object().shape({
+export const loginSchema = yup.object({
   email: yup.string().email("Invalid email format").required("Email is required"),
 
   password: yup.string().required("Password is required"),
 });
+
+export type RegisterFormData = yup.InferType<typeof registerSchema>;
+export type LoginFormData = yup.InferType<typeof loginSchema>;

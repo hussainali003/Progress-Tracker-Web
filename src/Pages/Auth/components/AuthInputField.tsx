@@ -1,5 +1,15 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type HTMLInputTypeAttribute } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import type { IconType } from "react-icons";
+
+type AuthInputFieldProps = {
+  icon: IconType;
+  type: HTMLInputTypeAttribute;
+  placeholder: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  isFirst?: boolean;
+};
 
 export default function AuthInputField({
   icon: Icon,
@@ -8,7 +18,7 @@ export default function AuthInputField({
   value,
   onChange,
   isFirst,
-}) {
+}: AuthInputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const isPassword = type === "password";
